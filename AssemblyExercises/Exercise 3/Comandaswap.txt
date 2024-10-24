@@ -1,0 +1,6 @@
+Instructiunea XCHG poate schimba valorile intre doua registre
+xchg %eax, %ebx
+
+importanta :
+- algoritmi de sortare
+- context switching
