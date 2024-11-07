@@ -10,7 +10,7 @@ rez: .long 0
 add:
 movl 4(%esp),%eax
 subl 8(%esp),%eax
-mul 12(%esp)
+mull 12(%esp)
 movl 16(%esp),%ebx
 movl %eax,(%ebx)
 
