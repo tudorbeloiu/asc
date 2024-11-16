@@ -1,6 +1,6 @@
 .data
-v: .long 1,3,4,6,10,10,10,11,12,13,14,15
-n: .long 12
+v: .space 400
+n: .space 4
 x: .space 4
 st: .space 4
 dr: .space 4
@@ -10,6 +10,7 @@ msjInput: .asciz "%ld"
 msjOutput: .asciz "Numarul este: %ld\n"
 msj: .asciz "Ce numar cauti?\n"
 msjpoz: .asciz "Pozitia cautata este: %ld\n"
+msjCitire: .asciz "%ld"
 
 .text
 
@@ -58,6 +59,40 @@ ret
 
 .global main
 main:
+/*citim n */
+pushl $n
+pushl $msjCitire
+call scanf
+popl %eax
+popl %eax
+
+/*citim elementele*/
+lea v,%edi
+movl $0,%ebx
+movl n,%ecx
+
+citirevector:
+cmp %ebx,%ecx
+je etrezpb
+
+pushl %ebx
+pushl %ecx
+pushl $x
+pushl $msjCitire
+call scanf
+
+popl %eax
+popl %eax
+popl %ecx
+popl %ebx
+
+movl x,%eax
+movl %eax,(%edi,%ebx,4)
+
+incl %ebx
+jmp citirevector
+
+etrezpb:
 pushl $msj
 call printf
 popl %eax
