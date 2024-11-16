@@ -1,11 +1,12 @@
 .data
-v: .long 13,65,3, 9,4,20,18,17,19,28,50,44,5,4
-n: .long 14
+v: .space 400
+n: .space 4
 aux1: .space 4
 aux2: .space 4
 aux3: .space 4
 x: .space 4
 msjafis: .asciz "%ld\n"
+msjCitire: .asciz "%ld"
 .text
 
 sortare:
@@ -70,6 +71,40 @@ ret
 .global main
 
 main:
+/*citim n*/
+pushl $n
+pushl $msjCitire
+call scanf
+
+popl %eax
+popl %eax
+
+lea v,%edi
+movl $0,%ebx
+movl n,%ecx
+
+citirevector:
+cmp %ebx,%ecx
+je etrezpb
+
+pushl %ebx
+pushl %ecx
+pushl $x
+pushl $msjCitire
+call scanf
+
+popl %eax
+popl %eax
+popl %ecx
+popl %ebx
+
+movl x,%eax
+movl %eax,(%edi,%ebx,4)
+
+incl %ebx
+jmp citirevector
+
+etrezpb:
 pushl v
 pushl n
 call sortare
