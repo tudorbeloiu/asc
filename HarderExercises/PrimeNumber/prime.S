@@ -1,8 +1,8 @@
 .data
 n: .space 4
 msjInput: .asciz "%ld"
-msjNOTprim: .asciz "Numarul %ld nu este prim \n"
-msjprim: .asciz "Numarul %ld este prim \n"
+msjNOTprim: .asciz "No"
+msjprim: .asciz "Yes"
 newLine: .asciz "\n"
 .text
 
@@ -14,6 +14,12 @@ pushl $msjInput
 call scanf
 popl %eax
 popl %eax
+
+movl n,%ecx
+cmpl $0,%ecx
+jle notprim
+cmpl $1,%ecx
+je notprim
 
 movl $1,%ecx
 cmp %ecx,n
@@ -60,6 +66,10 @@ popl %eax
 jmp etexit
 
 etexit:
+pushl $0
+call fflush
+popl %ebx
+
 movl $1,%eax
 movl $0,%ebx
 int $0x80
