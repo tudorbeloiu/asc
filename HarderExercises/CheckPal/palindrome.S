@@ -3,12 +3,12 @@ sir: .space 250
 n: .space 4
 x: .space 1
 rez: .space 4
-estePal: .asciz "Este palindrom\n"
-nuestePal: .asciz "Nu este palindrom\n"
+estePal: .asciz "Yes"
+nuestePal: .asciz "No"
 msjCitire: .asciz "%s"
 msjOut: .asciz "Sirul nostru este: %s\n"
 msj: .asciz "Sirul are %ld caractere\n"
-msjOUTPUT: .asciz "%s\n"
+msjOUTPUT: .asciz "%s"
 
 .text
 
@@ -37,19 +37,19 @@ decl %ecx
 jmp etloop
 
 etYESpal:
-mov $4,%eax
-mov $1,%ebx
-mov $estePal,%ecx
-mov $16,%edx
-int $0x80
+pushl $estePal
+pushl $msjOUTPUT
+call printf
+popl %edx
+popl %edx
 jmp etfin
 
 etNOTpal:
-mov $4,%eax
-mov $1,%ebx
-mov $nuestePal,%ecx
-mov $19,%edx
-int $0x80
+pushl $nuestePal
+pushl $msjOUTPUT
+call printf
+popl %edx
+popl %edx
 jmp etfin
 
 etfin:
@@ -66,16 +66,18 @@ pop %eax
 pop %eax
 
 //aici afisam sirul de caractere
-
+/*
 push $sir
 push $msjOut
 call printf
 pop %eax
 pop %eax
+*/
 ///////////////////////////
 
 lea sir,%edi
 movl $0,%ecx
+
 
 etlength:
 movb (%edi,%ecx,1),%al
@@ -88,6 +90,7 @@ jmp etlength
 etprintlength:
 
 movl %ecx,n
+/*
 pushl %ecx
 pushl n
 pushl $msj
@@ -96,12 +99,16 @@ call printf
 popl %eax
 popl %eax
 popl %ecx
-
+*/
 pushl $sir
 call palindrom
 popl %eax
 
 etexit:
+pushl $0
+call fflush
+popl %eax
+
 movl $1,%eax
 movl $0,%ebx
 int $0x80
